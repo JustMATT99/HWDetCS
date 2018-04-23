@@ -13,18 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace HWDetCS
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainWindow : NavigationWindow
+    public partial class MainPage : Page
     {
-        public MainWindow()
+        public MainPage()
         {
             InitializeComponent();
-            
         }
 
+        private void MainPageButton1_Click(object sender, RoutedEventArgs e)
+        {
+            CPUBase cpuBase = new CPUBase();
+            this.NavigationService.Navigate(cpuBase);
+        }
     }
 }
