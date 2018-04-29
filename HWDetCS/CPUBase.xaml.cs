@@ -93,11 +93,15 @@ namespace HWDetCS
             // Get the name
             CPUNameText.Content = values[29];
             // Get the manufacturer
-            CPUManuText.Content = values[28];
+            CPUManuText.Content = values[27];
             // Get the current clock speed  -TODO: put this in a loop to have it update
-            CPUClockSpeedText.Content = values[11];
+            CPUClockSpeedText.Content = values[10] + "MHz";
             // Get the number of CORES (NOT THREADS!)
             CPUCoreCountText.Content = values[30];
+            // Get the Family
+            CPUFamilyText.Content = values[18];
+            // Get the current Voltage -TODO: Make this update along with clock speed as specified above
+            CPUCVoltageText.Content = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
         }
     }
 }
