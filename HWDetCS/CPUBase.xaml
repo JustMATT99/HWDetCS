@@ -11,8 +11,14 @@
     <Grid Background="Gray">
         <DockPanel>
             <UniformGrid Rows="4" Columns="2">
-                <Label x:Name="CPUNameLabel" Content="CPU Name" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label x:Name="CPUNameLabel" Content="CPU Name:" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <Label x:Name="CPUNameText" Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
+                <Label x:Name="CPUManuLabel" Content="CPU Manufacturer:" FontSize="36" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FF007ACC"/>
+                <Label x:Name="CPUManuText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                <Label x:Name="CPUClockSpeedLabel" Content="CPU Clock Speed:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                <Label x:Name="CPUClockSpeedText" Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
+                <Label x:Name="CPUCoreCountLabel" Content="CPU Core Count" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                <Label x:Name="CPUCoreCountText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
             </UniformGrid>
         </DockPanel>
     </Grid>
