@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Management.Instrumentation;
+using System.ComponentModel;
 using System.Management;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
-using System.Windows;
+using System.Timers;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HWDetCS
 {
     /// <summary>
     /// Interaction logic for CPUBase.xaml
     /// </summary>
-    public partial class CPUBase : Page
+    public partial class CPUBase : Page,INotifyPropertyChanged
     {
 
         // lists are better than arrays, fite me!
         public List<string> names = new List<string>();
         public List<string> values = new List<string>();
         public int i = 0;
+
+        // Set up a timer to be enabled later
+        public Timer CPUDetRefreshTimer;
         
 
         public CPUBase()
@@ -37,22 +29,121 @@ namespace HWDetCS
 
             // Actually run all the detection stuff
             CPUDet();
+
+            // Start up the Timer, and get it ready
+            CPUDetRefreshTimer = new Timer
+            {
+                AutoReset = true,
+                Interval = 500,
+                Enabled = true
+            };
+            CPUDetRefreshTimer.Elapsed += OnCPUDetEvent;
+            
         }
 
         // This thing does all the work
         public void CPUDet()
         {
+            // Run the actual detection for the first time...
+            CPUPropDet();
+            
+            // Debug stuff, dont release uncommented!
+            // TODO: COMMENT THIS OUT!
+            for (int x = 0; x < names.Count - 1; x++)
+            {
+                Console.WriteLine(x.ToString());
+                Console.WriteLine(names[x]);
+                Console.WriteLine(values[x]);
+            }
+
+            // Get the name
+            CPUNameText.Content = values[29];
+            // Get the manufacturer
+            CPUManuText.Content = values[27];
+            // Get the number of CORES (NOT THREADS!)
+            CPUCoreCountText.Content = values[30];
+            // Get the Family (Caption)
+            CPUFamilyText.Content = values[4];
+
+        }
+        
+        public void OnCPUDetEvent(Object obj, ElapsedEventArgs args)
+        {
+            //Console.WriteLine("Event Fire!");
+
+            
+
+            CPUPropDet();
+            
+            // Get the current clock speed
+            CPUSpeed = values[10] + "MHz";
+            // Get the current Voltage
+            CPUVolts = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
+
+            
+        }
+
+
+        // This makes everything able to update without throwing a fit
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string info)
+        {
+            
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+            
+        }
+
+        // This handles the CPU Speed...
+        string speed;
+        public string CPUSpeed
+        {
+            get
+            {
+                return speed;
+            }
+            set
+            {
+                speed = value;
+                NotifyPropertyChanged(nameof(CPUSpeed));
+            }
+        }
+
+        // and this handles Voltage
+        string volts;
+        public string CPUVolts
+        {
+            get
+            {
+                return volts;
+            }
+            set
+            {
+                volts = value;
+                NotifyPropertyChanged(nameof(CPUVolts));
+            }
+        }
+
+        // Its technically not a loop....
+        public void CPUPropDet()
+        {
             // Get the CPU Management class, this makes it the CPU we get info off of rather than nothing, because if it wasnt set to the CPU, it would error and break and cry a lot... dont change it.
             ManagementClass CPUClass = new ManagementClass("Win32_Processor");
             CPUClass.Options.UseAmendedQualifiers = true;
 
+            // Clear the lists in case this is the second detection, not doing this leads to no update on screen as the new values are added to a full list onto indexes I'm not accounting for
+            names.Clear();
+            values.Clear();
+
+
             // Set up a data collection to get the data off of, this and the next thing SHOULD NEVER BE IN A LOOP! IT WILL BREAK YOUR CPU LIKE A FUCKING BALLOON!
             PropertyDataCollection dataCollection = CPUClass.Properties;
 
-            // get the instance of the class, for some reason this is required to work, dont touch AND DONT PUT IT IN A LOOP WHY CANT YOU LISTEN!?
+            // Get the instance of the class, for some reason this is required to work, dont touch AND DONT PUT IT IN A LOOP WHY CANT YOU LISTEN!?
             ManagementObjectCollection instanceCollection = CPUClass.GetInstances();
 
-            // this is a loop, its very fragile, dont touch it, it gets the list of data we are collecting
+
+
+            // This is a loop, its very fragile, dont touch it, it gets the list of data we are collecting
             foreach (PropertyData property in dataCollection)
             {
 
@@ -76,32 +167,12 @@ namespace HWDetCS
                 }
                 // counting....
                 i++;
-                
-            }
 
-            
-            
-            // Debug stuff, dont release uncommented!
-            // TODO: COMMENT THIS OUT!
-            for (int x = 0; x < names.Count - 1; x++)
-            {
-                Console.WriteLine(x.ToString());
-                Console.WriteLine(names[x]);
-                Console.WriteLine(values[x]);
             }
-
-            // Get the name
-            CPUNameText.Content = values[29];
-            // Get the manufacturer
-            CPUManuText.Content = values[27];
-            // Get the current clock speed  -TODO: put this in a loop to have it update
-            CPUClockSpeedText.Content = values[10] + "MHz";
-            // Get the number of CORES (NOT THREADS!)
-            CPUCoreCountText.Content = values[30];
-            // Get the Family
-            CPUFamilyText.Content = values[18];
-            // Get the current Voltage -TODO: Make this update along with clock speed as specified above
-            CPUCVoltageText.Content = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
+            i = 0;
+            
         }
     }
+
+    
 }
