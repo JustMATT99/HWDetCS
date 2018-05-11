@@ -3,7 +3,7 @@ The C# version of a new project I'm working on!
 What this does, is show you information about the hardware you are running this program on.
 
 [Trello](https://trello.com/b/dn8WgxFn)
-_Someone tell me how to make the buttons_
+
 
 ## FAQ (not really, no one has asked me anything about this yet, I just find this is the best way to explain certain things)
 
