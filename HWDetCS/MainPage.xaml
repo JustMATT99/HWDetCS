@@ -1,4 +1,4 @@
-﻿<Page x:Class="HWDetCS.MainPage"
+﻿<Page x:Name="MainBasePage" x:Class="HWDetCS.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,13 +9,15 @@
       Title="MainPage" MinWidth="1280" MinHeight="720">
 
     <Grid>
-        <DockPanel LastChildFill="False" MinWidth="1280" MinHeight="720">
+        <DockPanel>
             <DockPanel.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
             </DockPanel.Background>
-            <Button x:Name="Button1" Foreground="#FF007ACC" FontSize="48" Focusable="False" Margin="20" Content="CPU" MinWidth="200" MinHeight="100" Background="#FF2D2D30" Click="MainPageButton1_Click"/>
-            <Button x:Name="Button2" Foreground="#FF007ACC" FontSize="48" Focusable="False" IsHitTestVisible="False" Content="GPU" Margin="20" MinWidth="200" MinHeight="100" Background="#FF2D2D30"/>
-            <Button x:Name="Button3" Content="RAM" Margin="20" MinWidth="200" MinHeight="100" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="#FF2D2D30" Foreground="#FF007ACC" FontSize="48" IsHitTestVisible="False" Focusable="False"/>
+            <UniformGrid Rows="1" Columns="3">
+                <Button x:Name="Button1" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False" Content="CPU" Background="#FF2D2D30" Click="MainPageButton1_Click"/>
+                <Button x:Name="Button2" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False" IsHitTestVisible="False" Content="GPU" Background="#FF2D2D30"/>
+                <Button x:Name="Button3" Content="RAM" Background="#FF2D2D30" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" IsHitTestVisible="False" Focusable="False"/>
+            </UniformGrid>
         </DockPanel>
     </Grid>
 </Page>

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 using System.Timers;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace HWDetCS
 {
@@ -26,6 +28,17 @@ namespace HWDetCS
         {
             // Auto generated stuff, don't touch!
             InitializeComponent();
+            // Check if we are running on Windows 10, Microsoft pls make this work again without requiring an app manifest, thanks
+            if(Environment.OSVersion.Version.Major == 10)
+            {
+                // If we are, make the text color the same as the users Accent Color
+                OSColor = SystemParameters.WindowGlassBrush;
+
+            }else
+            {
+                // If we aren't, switch to Dodger Blue
+                OSColor = Brushes.DodgerBlue;
+            }
 
             // Actually run all the detection stuff
             CPUDet();
@@ -55,7 +68,7 @@ namespace HWDetCS
                 Console.WriteLine(names[x]);
                 Console.WriteLine(values[x]);
             }
-
+            
             // Get the name
             CPUNameText.Content = values[29];
             // Get the manufacturer
@@ -126,6 +139,21 @@ namespace HWDetCS
             {
                 volts = value;
                 NotifyPropertyChanged(nameof(CPUVolts));
+            }
+        }
+
+        // This handles the Text Color
+        Brush color;
+        public Brush OSColor
+        {
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+                NotifyPropertyChanged(nameof(OSColor));
             }
         }
 
