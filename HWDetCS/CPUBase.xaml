@@ -6,24 +6,29 @@
       xmlns:local="clr-namespace:HWDetCS"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CPUBase" MinWidth="1280" MinHeight="720">
-
-    <Grid Background="Gray">
-        <DockPanel>
-            <UniformGrid Rows="6" Columns="2">
-                <Label x:Name="CPUNameLabel" Content="CPU Name:" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label x:Name="CPUNameText" Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
-                <Label x:Name="CPUManuLabel" Content="CPU Manufacturer:" FontSize="36" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FF007ACC"/>
-                <Label x:Name="CPUManuText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
-                <Label x:Name="CPUClockSpeedLabel" Content="CPU Clock Speed:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
-                <Label x:Name="CPUClockSpeedText" Content="{Binding CPUSpeed, ElementName=CPUBasePage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
-                <Label x:Name="CPUCoreCountLabel" Content="CPU Core Count:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
-                <Label x:Name="CPUCoreCountText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
-                <Label x:Name="CPUFamilyLabel" Content="CPU Family:" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label x:Name="CPUFamilyText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
-                <Label x:Name="CPUCVoltageLabel" Content="CPU Current Voltage:" FontSize="36" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF007ACC"/>
-                <Label x:Name="CPUCVoltageText" Content="{Binding CPUVolts, ElementName=CPUBasePage}" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
-            </UniformGrid>
-        </DockPanel>
-    </Grid>
+      Title="CPUBase" ScrollViewer.CanContentScroll="True">
+    <ScrollViewer VerticalContentAlignment="Center" HorizontalContentAlignment="Center" CanContentScroll="True">
+        <Grid Background="Gray">
+            <DockPanel>
+                <UniformGrid x:Name="CPUPageUniGrid" Rows="8" Columns="2" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Top">
+                    <Label x:Name="CPUNameLabel" Content="CPU Name:" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label x:Name="CPUNameText" Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
+                    <Label x:Name="CPUManuLabel" Content="CPU Manufacturer:" FontSize="36" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FF007ACC"/>
+                    <Label x:Name="CPUManuText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                    <Label x:Name="CPUClockSpeedLabel" Content="CPU Clock Speed:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                    <Label x:Name="CPUClockSpeedText" Content="{Binding CPUSpeed, ElementName=CPUBasePage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
+                    <Label x:Name="CPUCoreCountLabel" Content="CPU Core Count:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                    <Label x:Name="CPUCoreCountText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                    <Label x:Name="CPUFamilyLabel" Content="CPU Family:" FontSize="36" FontWeight="Bold" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label x:Name="CPUFamilyText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                    <Label x:Name="CPUCVoltageLabel" Content="CPU Current Voltage:" FontSize="36" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF007ACC"/>
+                    <Label x:Name="CPUCVoltageText" Content="{Binding CPUVolts, ElementName=CPUBasePage}" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                    <Label x:Name="CPULogicalCoresLabel" Content="CPU Logical Core Count:" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                    <Label x:Name="CPULogicalCoresText" Content="Label" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FF007ACC"/>
+                    <Label x:Name="CPUSocketDesignationLabel" Content="CPU Socket Designation: " Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                    <Label x:Name="CPUSocketDesignationText" Content="Label" Foreground="#FF007ACC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                </UniformGrid>
+            </DockPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

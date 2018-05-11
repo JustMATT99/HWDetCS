@@ -64,6 +64,12 @@ namespace HWDetCS
             CPUCoreCountText.Content = values[30];
             // Get the Family (Caption)
             CPUFamilyText.Content = values[4];
+            // Get the number of Logical Cores (Not physical cores, these are threads!)
+            CPULogicalCoresText.Content = values[32];
+            // Get the Socket Designation -WIP -TODO: Parse from a table (hopefully pre-made, so I dont have to manually enter every socket ever used) of sockets
+            // https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/SmBios.h line 753-810 looks helpful
+            CPUSocketDesignationText.Content = values[52];
+
 
         }
         
@@ -141,8 +147,6 @@ namespace HWDetCS
             // Get the instance of the class, for some reason this is required to work, dont touch AND DONT PUT IT IN A LOOP WHY CANT YOU LISTEN!?
             ManagementObjectCollection instanceCollection = CPUClass.GetInstances();
 
-
-
             // This is a loop, its very fragile, dont touch it, it gets the list of data we are collecting
             foreach (PropertyData property in dataCollection)
             {
@@ -159,6 +163,11 @@ namespace HWDetCS
                         // if its null, dont add the actual property data, INSTEAD, add a string that says null so we know not to fuck with it
                         values.Add("null");
                     }
+                    else if (instance.Properties[property.Name.ToString()].Value.ToString() == "")
+                    {
+                        // differentiate between actually null values and just blank strings
+                        values.Add("BLANK");
+                    }
                     else
                     {
                         // otherwise, go right ahead
@@ -169,6 +178,7 @@ namespace HWDetCS
                 i++;
 
             }
+            // Reset the counter!
             i = 0;
             
         }
