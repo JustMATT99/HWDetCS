@@ -28,6 +28,7 @@ namespace HWDetCS
         {
             // Auto generated stuff, don't touch!
             InitializeComponent();
+            
             // Check if we are running on Windows 10, Microsoft pls make this work again without requiring an app manifest, thanks
             if(Environment.OSVersion.Version.Major == 10)
             {
@@ -69,16 +70,40 @@ namespace HWDetCS
                 Console.WriteLine(values[x]);
             }
             
+            // Check if the CPU is 64bit or 32 (or something else?)
+            // Using the AddressWidth property, might change to something else that does the same thing later
+            if (Convert.ToUInt16(values[0]) == 64)
+            {
+                // If it is 64bit, make the text true, and change its color to forest green
+                _64BitCheckText.Content = "True";
+                _64BitCheckColor = Brushes.DarkGreen;
+            }else
+            {
+                // If it is NOT 64bit (32bit or similar), make the text false, and change its color to crimson
+                _64BitCheckText.Content = "False";
+                _64BitCheckColor = Brushes.Crimson;
+            }
+
             // Get the name
             CPUNameText.Content = values[29];
+            
             // Get the manufacturer
             CPUManuText.Content = values[27];
+
+            // Get the max clock speed
+            CPUMaxClockSpeedText.Content = values[28] + "MHz"; // NOTE: Doesn't seem to count boost clock speeds, may have to change this later
+            
             // Get the number of CORES (NOT THREADS!)
             CPUCoreCountText.Content = values[30];
+            
+            // Get the number of Logical Cores (Not physical cores, these are threads!)
+            CPULCoreCountText.Content = values[32];
+            
             // Get the Family (Caption)
             CPUFamilyText.Content = values[4];
-            // Get the number of Logical Cores (Not physical cores, these are threads!)
-            CPULogicalCoresText.Content = values[32];
+            
+            
+            
             // Get the Socket Designation -WIP -TODO: Parse from a table (hopefully pre-made, so I dont have to manually enter every socket ever used) of sockets
             // https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/SmBios.h line 753-810 looks helpful
             CPUSocketDesignationText.Content = values[52];
@@ -94,11 +119,17 @@ namespace HWDetCS
 
             CPUPropDet();
             
+            // Get the current load percentage
+            CPULoad = values[26] + "%";
+
             // Get the current clock speed
             CPUSpeed = values[10] + "MHz";
+
+            // Get the current base clock
+            CPUBCLK = values[17] + "MHz";
+
             // Get the current Voltage
             CPUVolts = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
-
             
         }
 
@@ -142,6 +173,36 @@ namespace HWDetCS
             }
         }
 
+        // This handles Load Percentage
+        string load;
+        public string CPULoad
+        {
+            get
+            {
+                return load;
+            }
+            set
+            {
+                load = value;
+                NotifyPropertyChanged(nameof(CPULoad));
+            }
+        }
+
+        // This handles the Base Clock (Most BIOS' call it 'BCLK')
+        string bClock;
+        public string CPUBCLK
+        {
+            get
+            {
+                return bClock;
+            }
+            set
+            {
+                bClock = value;
+                NotifyPropertyChanged(nameof(CPUBCLK));
+            }
+        }
+
         // This handles the Text Color
         Brush color;
         public Brush OSColor
@@ -154,6 +215,21 @@ namespace HWDetCS
             {
                 color = value;
                 NotifyPropertyChanged(nameof(OSColor));
+            }
+        }
+
+        // This handles the Text Color of the 64bit check boolean
+        Brush otherColor;
+        public Brush _64BitCheckColor
+        {
+            get
+            {
+                return otherColor;
+            }
+            set
+            {
+                otherColor = value;
+                NotifyPropertyChanged(nameof(_64BitCheckColor));
             }
         }
 
