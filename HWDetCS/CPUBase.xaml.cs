@@ -113,24 +113,19 @@ namespace HWDetCS
         
         public void OnCPUDetEvent(Object obj, ElapsedEventArgs args)
         {
-            //Console.WriteLine("Event Fire!");
-
-            
-
             CPUPropDet();
             
-            // Get the current load percentage
-            CPULoad = values[26] + "%";
-
-            // Get the current clock speed
+            // Get the current clock speed safely
             CPUSpeed = values[10] + "MHz";
 
-            // Get the current base clock
-            CPUBCLK = values[17] + "MHz";
 
-            // Get the current Voltage
-            CPUVolts = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
-            
+            // Get the current Voltage safely
+            try
+            {
+                CPUVolts = (Convert.ToDouble(values[11]) / 10).ToString() + " Volts";
+            } catch (FormatException e) {
+                CPUVolts = "Voltage Error";
+            }
         }
 
 
