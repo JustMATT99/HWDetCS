@@ -114,10 +114,13 @@ namespace HWDetCS
         public void OnCPUDetEvent(Object obj, ElapsedEventArgs args)
         {
             CPUPropDet();
-            
+
+            CPULoad = values[26] + "%";
+
             // Get the current clock speed safely
             CPUSpeed = values[10] + "MHz";
 
+            CPUBCLK = values[17] + "MHz";
 
             // Get the current Voltage safely
             try
