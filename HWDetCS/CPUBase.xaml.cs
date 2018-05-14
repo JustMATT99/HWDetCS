@@ -22,13 +22,18 @@ namespace HWDetCS
 
         // Set up a timer to be enabled later
         public Timer CPUDetRefreshTimer;
+
+        // Who needs proper good code supported by a good API when you can have an array you have to manually update everytime Intel or AMD release a new Socket?
+        public List<string> SocketList = new List<string>();
         
 
         public CPUBase()
         {
             // Auto generated stuff, don't touch!
             InitializeComponent();
-            
+
+            SocketListPopulate();
+
             // Check if we are running on Windows 10, Microsoft pls make this work again without requiring an app manifest, thanks
             if(Environment.OSVersion.Version.Major == 10)
             {
@@ -90,6 +95,9 @@ namespace HWDetCS
             // Get the manufacturer
             CPUManuText.Content = values[27];
 
+            // Get the Status
+            CPUStatusText.Content = values[45];
+
             // Get the max clock speed
             CPUMaxClockSpeedText.Content = values[28] + "MHz"; // NOTE: Doesn't seem to count boost clock speeds, may have to change this later
             
@@ -104,9 +112,8 @@ namespace HWDetCS
             
             
             
-            // Get the Socket Designation -WIP -TODO: Parse from a table (hopefully pre-made, so I dont have to manually enter every socket ever used) of sockets
-            // https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/SmBios.h line 753-810 looks helpful
-            CPUSocketDesignationText.Content = values[52];
+            // Get the Socket Designation -WIP -TODO: Parse from a table (wasnt pre-made, I entered it all myself...)
+            CPUSocketDesignationText.Content = SocketList[Convert.ToInt32(values[52]) - 1]; // Take 1 off cuz the list starts at 0, and values[52] starts at 1
 
 
         }
@@ -139,6 +146,143 @@ namespace HWDetCS
             
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
             
+        }
+
+        // Its technically not a loop....
+        public void CPUPropDet()
+        {
+            // Get the CPU Management class, this makes it the CPU we get info off of rather than nothing, because if it wasnt set to the CPU, it would error and break and cry a lot... dont change it.
+            ManagementClass CPUClass = new ManagementClass("Win32_Processor");
+            CPUClass.Options.UseAmendedQualifiers = true;
+
+            // Clear the lists in case this is the second detection, not doing this leads to no update on screen as the new values are added to a full list onto indexes I'm not accounting for
+            names.Clear();
+            values.Clear();
+
+
+            // Set up a data collection to get the data off of, this and the next thing SHOULD NEVER BE IN A LOOP! IT WILL BREAK YOUR CPU LIKE A FUCKING BALLOON!
+            PropertyDataCollection dataCollection = CPUClass.Properties;
+
+            // Get the instance of the class, for some reason this is required to work, dont touch AND DONT PUT IT IN A LOOP WHY CANT YOU LISTEN!?
+            ManagementObjectCollection instanceCollection = CPUClass.GetInstances();
+
+            // This is a loop, its very fragile, dont touch it, it gets the list of data we are collecting
+            foreach (PropertyData property in dataCollection)
+            {
+
+                // adds the names into one nice readable-ish list!
+                names.Add(property.Name);
+
+                // loop through all the instances and grabs the actual data off of it
+                foreach (ManagementObject instance in instanceCollection)
+                {
+                    // makes sure we dont get null reference errors, I HATE THOSE SO MUCH! I KNOW ITS NULL JUST SHUT UP!
+                    if (instance.Properties[property.Name.ToString()].Value == null)
+                    {
+                        // if its null, dont add the actual property data, INSTEAD, add a string that says null so we know not to fuck with it
+                        values.Add("null");
+                    }
+                    else if (instance.Properties[property.Name.ToString()].Value.ToString() == "")
+                    {
+                        // differentiate between actually null values and just blank strings
+                        values.Add("BLANK");
+                    }
+                    else
+                    {
+                        // otherwise, go right ahead
+                        values.Add(instance.Properties[property.Name.ToString()].Value.ToString());
+                    }
+                }
+                // counting....
+                i++;
+
+            }
+            // Reset the counter!
+            i = 0;
+            
+        }
+
+        // This was auto generated... its too good not to leave in XD
+        // But for real.... this populates the Socket List, which is required because Im bad at using WMI....
+        /// <summary>
+        /// Sockets the list populate.
+        /// </summary>
+        /// <autogeneratedoc />
+        /// TODO Edit XML Comment Template for SocketListPopulate
+        void SocketListPopulate()
+        {
+            // Clear it in case something was in it for some unknown reason... dont want the indexes to be wrong.
+            SocketList.Clear();
+
+            // GIANT WALL OF TEXT
+            // I'm guessing this is what would show up on something that isnt supported yet?
+            SocketList.Add("Other");
+            // Same thing as above maybe?
+            SocketList.Add("Unknown");
+            // Proprietary stuff?
+            SocketList.Add("Daughter Board");
+            // Why? Please... tell me why you are using this?
+            SocketList.Add("ZIF Socket");
+            // What even is this?
+            SocketList.Add("Replacement/Piggy Back");
+            // Finally something that makes se-wait... WHAT!?
+            SocketList.Add("None");
+            // Almost there....
+            SocketList.Add("LIF Socket");
+            // Pretty old...
+            SocketList.Add("Slot 1");
+            // Wake me up when we get to Lynnfield and Bloomfield stuff!
+            SocketList.Add("Slot 2");
+            SocketList.Add("370 Pin Socket");
+            SocketList.Add("Slot A"); // Apparently CPUs can be IKEA furniture...
+            SocketList.Add("Slot M");
+            SocketList.Add("Socket 423");
+            SocketList.Add("Socket A (Socket 462)");
+            SocketList.Add("Socket 478");
+            SocketList.Add("Socket 754");
+            SocketList.Add("Socket 940");
+            SocketList.Add("Socket 939");
+            SocketList.Add("Socket mPGA604");
+            SocketList.Add("Socket LGA771");
+            SocketList.Add("Socket LGA775");
+            SocketList.Add("Socket S1");
+            SocketList.Add("Socket AM2");
+            SocketList.Add("Socket F (1207)");
+            // Oh cool, something made in the last 10 years!
+            SocketList.Add("Socket LGA1366");
+            SocketList.Add("Socket G34");
+            SocketList.Add("Socket AM3");
+            SocketList.Add("Socket C32");
+            SocketList.Add("Socket LGA1156");
+            SocketList.Add("Socket LGA1567");
+            SocketList.Add("Socket PGA988A");
+            SocketList.Add("Socket BGA1288");
+            SocketList.Add("Socket rPGA988B");
+            SocketList.Add("Socket BGA1023");
+            SocketList.Add("Socket BGA1224");
+            SocketList.Add("Socket LGA1155");
+            SocketList.Add("Socket LGA1356");
+            SocketList.Add("Socket LGA2011");
+            SocketList.Add("Socket FS1");
+            SocketList.Add("Socket FS2");
+            SocketList.Add("Socket FM1");
+            SocketList.Add("Socket FM2 or FM2+"); // My CPU uses FM2+ but showed up as FM2...
+            SocketList.Add("Socket LGA2011-3");
+            SocketList.Add("Socket LGA1356-3");
+            SocketList.Add("Socket LGA1150");
+            SocketList.Add("Socket BGA1168");
+            SocketList.Add("Socket BGA1234");
+            SocketList.Add("Socket BGA1364");
+            SocketList.Add("Socket AM4");
+            SocketList.Add("Socket LGA1151");
+            SocketList.Add("Socket BGA1356");
+            SocketList.Add("Socket BGA1440");
+            SocketList.Add("Socket BGA1515");
+            // Thats a lot of pins... probably since its for xeons... Knights Landing Xeons to be exact...
+            SocketList.Add("Socket LGA3647-1");
+            SocketList.Add("Socket SP3 (AMD Epyc)");
+            SocketList.Add("Socket SP3r2 (TR4)");
+            SocketList.Add("Socket LGA2066");
         }
 
         // This handles the CPU Speed...
@@ -231,59 +375,6 @@ namespace HWDetCS
             }
         }
 
-        // Its technically not a loop....
-        public void CPUPropDet()
-        {
-            // Get the CPU Management class, this makes it the CPU we get info off of rather than nothing, because if it wasnt set to the CPU, it would error and break and cry a lot... dont change it.
-            ManagementClass CPUClass = new ManagementClass("Win32_Processor");
-            CPUClass.Options.UseAmendedQualifiers = true;
-
-            // Clear the lists in case this is the second detection, not doing this leads to no update on screen as the new values are added to a full list onto indexes I'm not accounting for
-            names.Clear();
-            values.Clear();
-
-
-            // Set up a data collection to get the data off of, this and the next thing SHOULD NEVER BE IN A LOOP! IT WILL BREAK YOUR CPU LIKE A FUCKING BALLOON!
-            PropertyDataCollection dataCollection = CPUClass.Properties;
-
-            // Get the instance of the class, for some reason this is required to work, dont touch AND DONT PUT IT IN A LOOP WHY CANT YOU LISTEN!?
-            ManagementObjectCollection instanceCollection = CPUClass.GetInstances();
-
-            // This is a loop, its very fragile, dont touch it, it gets the list of data we are collecting
-            foreach (PropertyData property in dataCollection)
-            {
-
-                // adds the names into one nice readable-ish list!
-                names.Add(property.Name);
-
-                // loop through all the instances and grabs the actual data off of it
-                foreach (ManagementObject instance in instanceCollection)
-                {
-                    // makes sure we dont get null reference errors, I HATE THOSE SO MUCH! I KNOW ITS NULL JUST SHUT UP!
-                    if (instance.Properties[property.Name.ToString()].Value == null)
-                    {
-                        // if its null, dont add the actual property data, INSTEAD, add a string that says null so we know not to fuck with it
-                        values.Add("null");
-                    }
-                    else if (instance.Properties[property.Name.ToString()].Value.ToString() == "")
-                    {
-                        // differentiate between actually null values and just blank strings
-                        values.Add("BLANK");
-                    }
-                    else
-                    {
-                        // otherwise, go right ahead
-                        values.Add(instance.Properties[property.Name.ToString()].Value.ToString());
-                    }
-                }
-                // counting....
-                i++;
-
-            }
-            // Reset the counter!
-            i = 0;
-            
-        }
     }
 
     
