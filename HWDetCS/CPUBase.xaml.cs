@@ -38,12 +38,12 @@ namespace HWDetCS
             if(Environment.OSVersion.Version.Major == 10)
             {
                 // If we are, make the text color the same as the users Accent Color
-                OSColor = SystemParameters.WindowGlassBrush;
+                TextColor = SystemParameters.WindowGlassBrush;
 
             }else
             {
                 // If we aren't, switch to Dodger Blue
-                OSColor = Brushes.DodgerBlue;
+                TextColor = Brushes.DodgerBlue;
             }
 
             // Actually run all the detection stuff
@@ -106,6 +106,12 @@ namespace HWDetCS
             
             // Get the number of Logical Cores (Not physical cores, these are threads!)
             CPULCoreCountText.Content = values[32];
+
+            // Get the size of the L2 Cache
+            CPUL2CacheSizeText.Content = values[20] + "kB";
+
+            // Get the size of the L3 Cache
+            CPUL3CacheSizeText.Content = values[22] + "kB";
             
             // Get the Family (Caption)
             CPUFamilyText.Content = values[4];
@@ -122,12 +128,27 @@ namespace HWDetCS
         {
             CPUPropDet();
 
+            // Get the current load percentage
             CPULoad = values[26] + "%";
 
             // Get the current clock speed safely
             CPUSpeed = values[10] + "MHz";
 
+            // Get the current base clock
             CPUBCLK = values[17] + "MHz";
+
+            // Get the current L2 Cache speed
+            // Currently is only giving either null or False on my system, needs to be tested to see what is causing this, my guess would be a AMD architecture bug, or CIM/WMI using intel only functions for L2 Cache speed
+            if (values[21] == "null")
+            {
+                CPUL2Speed = "null";
+            } else
+            {
+                CPUL2Speed = values[21] + "MHz";
+            }
+
+            // Get the current L3 Cache speed
+            CPUL3Speed = values[23] + "MHz";
 
             // Get the current Voltage safely
             try
@@ -151,6 +172,7 @@ namespace HWDetCS
         // Its technically not a loop....
         public void CPUPropDet()
         {
+
             // Get the CPU Management class, this makes it the CPU we get info off of rather than nothing, because if it wasnt set to the CPU, it would error and break and cry a lot... dont change it.
             ManagementClass CPUClass = new ManagementClass("Win32_Processor");
             CPUClass.Options.UseAmendedQualifiers = true;
@@ -159,7 +181,7 @@ namespace HWDetCS
             names.Clear();
             values.Clear();
 
-
+            
             // Set up a data collection to get the data off of, this and the next thing SHOULD NEVER BE IN A LOOP! IT WILL BREAK YOUR CPU LIKE A FUCKING BALLOON!
             PropertyDataCollection dataCollection = CPUClass.Properties;
 
@@ -197,6 +219,7 @@ namespace HWDetCS
                 i++;
 
             }
+            
             // Reset the counter!
             i = 0;
             
@@ -345,9 +368,39 @@ namespace HWDetCS
             }
         }
 
+        // This handles the L2 Cache speed
+        string l2Speed;
+        public string CPUL2Speed
+        {
+            get
+            {
+                return l2Speed;
+            }
+            set
+            {
+                l2Speed = value;
+                NotifyPropertyChanged(nameof(CPUL2Speed));
+            }
+        }
+
+        // This handles the L3 Cache speed
+        string l3Speed;
+        public string CPUL3Speed
+        {
+            get
+            {
+                return l3Speed;
+            }
+            set
+            {
+                l3Speed = value;
+                NotifyPropertyChanged(nameof(CPUL3Speed));
+            }
+        }
+
         // This handles the Text Color
         Brush color;
-        public Brush OSColor
+        public Brush TextColor
         {
             get
             {
@@ -356,7 +409,7 @@ namespace HWDetCS
             set
             {
                 color = value;
-                NotifyPropertyChanged(nameof(OSColor));
+                NotifyPropertyChanged(nameof(TextColor));
             }
         }
 
