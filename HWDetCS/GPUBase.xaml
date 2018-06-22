@@ -1,0 +1,28 @@
+﻿<Page x:Name="GPUBasePage" x:Class="HWDetCS.GPUBase"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HWDetCS"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="GPUBase" ScrollViewer.CanContentScroll="True">
+    <ScrollViewer>
+        <Grid Background="Gray">
+            <DockPanel>
+                <UniformGrid x:Name="GPUPageUniGrid" Columns="2" Rows="5">
+                    <Label x:Name="GPUNameLabel" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,0,0,1" Content="GPU Name: "></Label>
+                    <Label x:Name="GPUNameText" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,0,0,1" Content="Label"></Label>
+                    <Label x:Name="CurrentResLabel" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="Current Resolution: "></Label>
+                    <Label x:Name="CurrentResText" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="{Binding CurRes, ElementName=GPUBasePage}"></Label>
+                    <Label x:Name="GPUVRAMSizeLabel" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="GPU VRAM Size: "></Label>
+                    <Label x:Name="GPUVRAMSizeText" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="Label"></Label>
+                    <Label x:Name="GPUBPPLabel" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="GPU Bits per pixel: "></Label>
+                    <Label x:Name="GPUBPPText" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="{Binding CurBPP, ElementName=GPUBasePage}"></Label>
+                    <Label x:Name="GPUSupportedColorsLabel" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="GPU Supported Colors: "></Label>
+                    <Label x:Name="GPUSupportedColorsText" Foreground="{Binding TextColor, ElementName=GPUBasePage}" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="0,1" Content="Label"></Label>
+                </UniformGrid>
+            </DockPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

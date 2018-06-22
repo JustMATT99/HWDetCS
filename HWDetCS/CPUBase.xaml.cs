@@ -18,7 +18,7 @@ namespace HWDetCS
         // lists are better than arrays, fite me!
         public List<string> names = new List<string>();
         public List<string> values = new List<string>();
-        public int i = 0;
+        
 
         // Set up a timer to be enabled later
         public Timer CPUDetRefreshTimer;
@@ -68,7 +68,7 @@ namespace HWDetCS
             
             // Debug stuff, dont release uncommented!
             // TODO: COMMENT THIS OUT!
-            for (int x = 0; x < names.Count - 1; x++)
+            for (int x = 0; x < names.Count; x++)
             {
                 Console.WriteLine(x.ToString());
                 Console.WriteLine(names[x]);
@@ -214,14 +214,10 @@ namespace HWDetCS
                         // otherwise, go right ahead
                         values.Add(instance.Properties[property.Name.ToString()].Value.ToString());
                     }
-                }
-                // counting....
-                i++;
 
+                }
+                
             }
-            
-            // Reset the counter!
-            i = 0;
             
         }
 

@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HWDetCS"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage" MinWidth="1280" MinHeight="720">
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="MainPage">
 
     <Grid>
         <DockPanel>
@@ -15,8 +15,8 @@
             </DockPanel.Background>
             <UniformGrid Rows="1" Columns="3">
                 <Button x:Name="Button1" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False" Content="CPU" Background="#FF2D2D30" Click="MainPageButton1_Click"/>
-                <Button x:Name="Button2" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False" IsHitTestVisible="False" Content="GPU" Background="#FF2D2D30"/>
-                <Button x:Name="Button3" Content="RAM" Background="#FF2D2D30" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" IsHitTestVisible="False" Focusable="False"/>
+                <Button x:Name="Button2" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False" Content="GPU" Background="#FF2D2D30" Click="MainPageButton2_Click"/>
+                <Button x:Name="Button3" Content="RAM" Background="#FF2D2D30" Foreground="{Binding OSColor, ElementName=MainBasePage}" FontSize="48" Focusable="False"/>
             </UniformGrid>
         </DockPanel>
     </Grid>

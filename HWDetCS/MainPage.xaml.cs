@@ -28,7 +28,13 @@ namespace HWDetCS
         private void MainPageButton1_Click(object sender, RoutedEventArgs e)
         {
             CPUBase cpuBase = new CPUBase();
-            this.NavigationService.Navigate(cpuBase);
+            NavigationService.Navigate(cpuBase);
+        }
+
+        private void MainPageButton2_Click(object sender, RoutedEventArgs e)
+        {
+            GPUBase gpuBase = new GPUBase();
+            NavigationService.Navigate(gpuBase);
         }
 
         // This makes everything able to update without throwing a fit
