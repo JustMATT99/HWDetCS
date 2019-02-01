@@ -1,3 +1,5 @@
+# If it wasnt obvious from me not touching this in months, I'm not working on this anymore
+
 # HWDetCS
 The C# version of a new project I'm working on!
 What this does, is show you information about the hardware you are running this program on.
